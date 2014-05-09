@@ -1,21 +1,25 @@
 {
   "name": "qscraper",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Web scraping library using promises",
   "main": "./lib/scrape.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
-      "type": "git",
-      "url": "git@github.com:masotime/qscraper.git"
-    },
+    "type": "git",
+    "url": "git@github.com:masotime/qscraper.git"
+  },
   "author": "Benjamin Goh <masotime@gmail.com>",
   "license": "BSD",
   "dependencies": {
-    "q": "~0.9.7",
     "cheerio": "~0.13.0",
-    "request": "~2.30.0",
-    "extend": "~1.2.1"
+    "extend": "~1.2.1",
+    "q": "~0.9.7",
+    "request": "~2.30.0"
+  },
+  "devDependencies": {
+    "chai": "~1.9.1",
+    "chai-as-promised": "~4.1.1"
   }
 }

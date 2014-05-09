@@ -7,7 +7,7 @@ Simple, basic web scraping with support for cookies, jQuery functionality. Uses 
 qScraper works along the lines of "sessions".
 
 	var scraper = require('qscraper');
-	var session = scrape.session(); // creates new "session" (stateless, no cookies)
+	var session = scraper.session(); // creates new "session" (stateless, no cookies)
 	var cookieSession = scrape.cookieSession(); // creates a session with it's own cookiejar.
 
 ## API
@@ -19,19 +19,54 @@ Returns raw body:
 * `session.get(uri, params)`
 * `session.post(uri, params)`
 
+e.g.
+
+    session.get('http://google.com')
+           .then(function(body) {
+           	    console.log(body); // prints out raw HTML
+           	});
+
 Returns jQuery $:
 
 * `session.get$(uri, params)`
 * `session.post$(uri, params)`
+
+e.g.
+
+    session.get$('http://google.com')
+           .then(function($) {
+           	    console.log($('title').text()); // prints out "Google"
+           	});
+
 
 Returns parsed JSON response:
 
 * `session.getJson(uri, params)`
 * `session.postJson(uri, params)`
 
+e.g.
+
+    var params = {
+        'address': '1600 Amphitheatre Parkway, Mountain View, CA',
+        'sensor': 'false'
+    };
+
+    session.getJson('http://maps.googleapis.com/maps/api/geocode/json', params)
+           .then(function(json) {
+           	    console.log(json); // prints out JSON response
+           	});
+
 Download a file to a filename - currently no custom options:
 
 * `session.download(uri, filename)`
+
+e.g.
+
+    session.download('https://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js')
+           .then(function(filename) {
+           	    console.log(filename); // prints out 'swfobject.js', which is downloaded.
+           	});
+
 
 ## Credits
 
