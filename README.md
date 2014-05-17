@@ -56,7 +56,10 @@ e.g.
            	    console.log(json); // prints out JSON response
            	});
 
-Download a file to a filename - currently no custom options:
+Download a file to a filename - currently no custom options.
+
+* If the filename is not specified, qscraper attempts to derive the filename from the uri.
+* If the filename is a directory that exists, qscraper will derive the filename from the uri and download to that folder.
 
 * `session.download(uri, filename)`
 

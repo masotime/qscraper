@@ -3,6 +3,8 @@ var assert = require('assert'),
 	chaiAsPromised = require('chai-as-promised'),
 	Q = require('q'),
 	fs = require('fs'),
+	path = require('path'),
+	mkdirp = require('mkdirp'),
 	qscraper = require('../lib/scrape');
 
 chai.use(chaiAsPromised);
@@ -57,26 +59,60 @@ describe('QScraper', function() {
 
 		describe('download', function() {
 			var url = 'https://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js',
-				expectedFilename = 'swfobject.js',
-				actualFilename;
+				innerpath = 'tempinnerfolder',
+				baseName = 'swfobject.js',
+				newName = 'differentswfobject.js';
 
 			it('should be able to download the SWF object javascript library from Google\'s CDN', function() {
-				var downloadPromise = qscraper.session().download(url);
+				var downloadPromise = qscraper.session().download(url),
+					expectedFilename = baseName;
 
 				return downloadPromise.then(function(filename) {
 					var contents = Q.ninvoke(fs, 'readFile', filename, {encoding: 'utf8'});
-					actualFilename = filename;
 
 					return Q.all([
-						actualFilename.should.equal(expectedFilename),
+						filename.should.equal(expectedFilename),
 						contents.should.eventually.contain('SWFObject')
 					]);
 				});
 			});
 
-			after(function() {
-				fs.unlink(actualFilename);
+			it('should be able to download to the "inner" folder when that is used as the "target filename"', function() {
+				mkdirp(innerpath, function(err) {
+					var downloadPromise = qscraper.session().download(url, innerpath),
+						expectedFilename = path.join(innerpath, baseName);
+
+					return downloadPromise.then(function(filename) {
+						var contents = Q.ninvoke(fs, 'readFile', filename, {encoding: 'utf8'});
+
+						return Q.all([
+							filename.should.equal(expectedFilename),
+							contents.should.eventually.contain('SWFObject')
+						]);
+					});
+				});
+			});
+
+			it('should be able to d ownload the SWF object java library under a different name', function() {
+				var downloadPromise = qscraper.session().download(url, newName),
+					expectedFilename = newName;
+
+				return downloadPromise.then(function(filename) {
+					var contents = Q.ninvoke(fs, 'readFile', filename, {encoding: 'utf8'});
+
+					return Q.all([
+						filename.should.equal(expectedFilename),
+						contents.should.eventually.contain('SWFObject')
+					]);
+				});				
 			})
+
+			afterEach(function() {
+				fs.existsSync(baseName) && fs.unlinkSync(baseName);
+				fs.existsSync(newName) && fs.unlinkSync(newName);
+				fs.existsSync(path.join(innerpath, baseName)) && fs.unlinkSync(path.join(innerpath, baseName));
+				fs.existsSync(innerpath) && fs.rmdirSync(innerpath);
+			});
 		})
 
 	});
