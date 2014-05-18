@@ -116,6 +116,8 @@ describe('QScraper', function() {
 		});
 
 		describe('addHeader', function() {
+			var filename = "testfile.txt";
+
 			it('should be able to add a header that is sent in the HTTP request', function() {
 				var session = qscraper.session();
 				return session.addHeader('Referer', 'nonsense')
@@ -124,7 +126,22 @@ describe('QScraper', function() {
 					}).then(function($) {
 						return $('td:contains("Referer")').next().text();
 					}).should.eventually.contain('nonsense');
+			});
+
+			it('should be able to download a file with the header sent in the HTTP request', function() {
+				var session = qscraper.session();
+				return session.addHeader('Referer', 'nonsense')
+					.then(function() {
+						return session.download('http://myhttp.info/', filename);
+					}).then(function(filename) {
+						return Q.ninvoke(fs,'readFile', filename, 'utf8');
+					}).should.eventually.contain('nonsense');
+			});
+
+			after(function() {
+				fs.existsSync(filename) && fs.unlinkSync(filename);
 			})
+
 		})
 
 	});
