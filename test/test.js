@@ -14,6 +14,7 @@ beforeEach(function() {
 });
 
 describe('QScraper', function() {
+	this.timeout(15000);
 
 	var scrapeApi = ['get', 'post', 'get$', 'post$', 'getJson', 'postJson', 'clearCookies', 'download', 'debug'];
 
