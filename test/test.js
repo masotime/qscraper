@@ -93,7 +93,7 @@ describe('QScraper', function() {
 				});
 			});
 
-			it('should be able to d ownload the SWF object java library under a different name', function() {
+			it('should be able to download the SWF object java library under a different name', function() {
 				var downloadPromise = qscraper.session().download(url, newName),
 					expectedFilename = newName;
 
@@ -105,7 +105,7 @@ describe('QScraper', function() {
 						contents.should.eventually.contain('SWFObject')
 					]);
 				});				
-			})
+			});
 
 			afterEach(function() {
 				fs.existsSync(baseName) && fs.unlinkSync(baseName);
@@ -113,6 +113,18 @@ describe('QScraper', function() {
 				fs.existsSync(path.join(innerpath, baseName)) && fs.unlinkSync(path.join(innerpath, baseName));
 				fs.existsSync(innerpath) && fs.rmdirSync(innerpath);
 			});
+		});
+
+		describe('addHeader', function() {
+			it('should be able to add a header that is sent in the HTTP request', function() {
+				var session = qscraper.session();
+				return session.addHeader('Referer', 'nonsense')
+					.then(function() {
+						return session.get$('http://myhttp.info/');
+					}).then(function($) {
+						return $('td:contains("Referer")').next().text();
+					}).should.eventually.contain('nonsense');
+			})
 		})
 
 	});

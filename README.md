@@ -16,8 +16,8 @@ qScraper works along the lines of "sessions".
 
 Returns raw body:
 
-* `session.get(uri, params)`
-* `session.post(uri, params)`
+`session.get(uri, params)`  
+`session.post(uri, params)`
 
 e.g.
 
@@ -28,8 +28,8 @@ e.g.
 
 Returns jQuery $:
 
-* `session.get$(uri, params)`
-* `session.post$(uri, params)`
+`session.get$(uri, params)`  
+`session.post$(uri, params)`
 
 e.g.
 
@@ -41,8 +41,8 @@ e.g.
 
 Returns parsed JSON response:
 
-* `session.getJson(uri, params)`
-* `session.postJson(uri, params)`
+`session.getJson(uri, params)`  
+`session.postJson(uri, params)`
 
 e.g.
 
@@ -61,7 +61,7 @@ Download a file to a filename - currently no custom options.
 * If the filename is not specified, qscraper attempts to derive the filename from the uri.
 * If the filename is a directory that exists, qscraper will derive the filename from the uri and download to that folder.
 
-* `session.download(uri, filename)`
+`session.download(uri, filename)`
 
 e.g.
 
@@ -70,6 +70,16 @@ e.g.
            	    console.log(filename); // prints out 'swfobject.js', which is downloaded.
            	});
 
+Scraping sometimes requires custom headers, e.g. setting the Referrer. 
+
+`session.addHeader(key, value)`
+
+e.g.
+
+  session.addHeader('Referer', 'http://www.google.com')
+      .then(function() {
+          return session.get('http://myhttp.info');
+      });
 
 ## Credits
 
