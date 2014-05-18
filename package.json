@@ -1,6 +1,6 @@
 {
   "name": "qscraper",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Web scraping library using promises",
   "main": "./lib/scrape.js",
   "scripts": {
