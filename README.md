@@ -2,6 +2,8 @@
 
 Simple, basic web scraping with support for cookies, jQuery functionality. Uses [Promises/A+][refp] specification in place of callbacks.
 
+The library has automatic support for gzip streams and 303 redirects (automatically follows them), which are not automatically supported by mikeal's request.
+
 ## Usage
 
 qScraper works along the lines of "sessions".
@@ -80,6 +82,10 @@ e.g.
       .then(function() {
           return session.get('http://myhttp.info');
       });
+
+## TODO
+
+* Add a test for the 303 Redirect functionality
 
 ## Credits
 
