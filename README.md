@@ -10,7 +10,7 @@ qScraper works along the lines of "sessions".
 
 	var scraper = require('qscraper');
 	var session = scraper.session(); // creates new "session" (stateless, no cookies)
-	var cookieSession = scrape.cookieSession(); // creates a session with it's own cookiejar.
+	var cookieSession = scraper.cookieSession(); // creates a session with it's own cookiejar.
 
 ## API
 
